@@ -31,12 +31,14 @@
             , PUBLISHER
             , BOOK_INFO
             , CATE_CODE
+            , BOOK_CODE
         ) VALUES (
             #{bookName}
             , #{bookPrice}
             , #{publisher}
             , #{bookInfo}
             , #{cateCode}
+            , #{bookCode}
         )
     </insert>
 
@@ -48,9 +50,27 @@
         , IS_MAIN
         , BOOK_CODE
         )
-        VALUES ('apple.jpg', 'adfg-yey-sdg.jpg', 'Y', 1),
-        ('apple.jpg', 'adfg-yey-sdg.jpg', 'N', 1);
+        VALUES
+            <!--첨부한 파일 갯수만큼 반복해서 insert-->
+            <!--collection : 반복을 돌릴 데이터(배열, 리스트)-->
+            <!--collection에 작성한 글자는 쿼리의 빈값을 채우기 위해 가져온 DTO 객체의 GETTER를 호출-->
+            <!--item : 하니씩 뺀 데이터-->
+            <!--separator : 반복문이 한 번 실행될 때 마다 추가할 내용. 단, 마지막 반복 시에는 적용되지 않음-->
+            <foreach collection="imgList" item="img" separator=","> <!-- bookDTO.getImgList() -->
+                (
+                    #{img.originFileName}
+                    , #{img.attachedFileName}
+                    , #{img.isMain}
+                    , #{img.bookCode}
+                )
+            </foreach>
     </insert>
+
+    <!--다음에 들어갈 BOOK_CODE 조회-->
+    <select id="getNextBookCode" resultType="int">
+        SELECT IFNULL(MAX(BOOK_CODE) , 0) + 1
+        FROM book;
+    </select>
 	
 </mapper>
 

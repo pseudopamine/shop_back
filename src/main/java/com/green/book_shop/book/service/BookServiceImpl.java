@@ -23,4 +23,14 @@ public class BookServiceImpl implements BookService{
   public List<BookCategoryDTO> selectBookCategoryList() {
     return bookMapper.selectBookCategoryList();
   }
+
+  @Override
+  public void insertImgs(BookDTO bookDTO) {
+    bookMapper.insertImgs(bookDTO);
+  }
+
+  @Override
+  public int getNextBookCode() {
+    return bookMapper.getNextBookCode();
+  }
 }

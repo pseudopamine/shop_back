@@ -12,4 +12,10 @@ public interface BookService {
 
   //JOIN한 카테고리 정보를 불러오는 기능
   public List<BookCategoryDTO> selectBookCategoryList();
+
+  //도서 이미지 등록 기능
+  public void insertImgs(BookDTO bookDTO);
+
+  //다음에 들어갈 BOOK_CODE 조회
+  public int getNextBookCode();
 }
